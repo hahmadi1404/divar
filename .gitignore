@@ -1,59 +1,33 @@
 ```
 # Build artifacts
+*.o
 *.obj
 *.exe
 *.dll
 *.pdb
-*.user
-*.aps
-*.ncb
-*.suo
-*.ilk
-*.exp
-*.lib
-*.iobj
-*.ipdb
-*.tlog
-*.log
-*.cache
-*.nupkg
-*.snupkg
+*.userprefs
+
+# Dependencies
 packages/
 bin/
 obj/
-Debug/
-Release/
-x64/
-x86/
-_build/
-dist/
 
-# Dependencies
-node_modules/
-.nuget/
-packages/
+# Logs
+*.log
+
+# User-specific files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
 
 # Environment
 .env
 .env.local
-.env.*
+*.env.*
 
-# Editors
-.vs/
-.vscode/
-.idea/
-*.swp
-*.swo
-Thumbs.db
-.DS_Store
-
-# Test and coverage
-coverage/
-htmlcov/
-.coverage
-*.coverage
-
-# Temporary files
+# Temp files
 *.tmp
-*.temp
+*~
 ```
