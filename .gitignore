@@ -1,19 +1,46 @@
-```
+```gitignore
 # Build artifacts
-bin/
-obj/
 *.exe
 *.dll
 *.pdb
-*.userprefs
+*.user
+*.suo
+*.cache
+*.manifest
+bin/
+obj/
+Debug/
+Release/
 
 # Dependencies
 packages/
+node_modules/
+.nuget/
+.npm/
 
-# Logs
+# Logs and temp files
 *.log
+*.tmp
+*.temp
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Editors
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
 
 # OS generated files
 .DS_Store
 Thumbs.db
+desktop.ini
+
+# Testing
+TestResults/
+coverage/
 ```

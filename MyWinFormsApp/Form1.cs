@@ -593,7 +593,7 @@ namespace MyWinFormsApp
                 int end = txtLog.TextLength;
                 
                 txtLog.Select(start, end - start);
-                txtLog.SelectionColor = color;
+                txtLog.SelectionForeColor = color;
                 txtLog.SelectionFont = new Font("Consolas", 8F);
                 txtLog.DeselectAll();
                 
