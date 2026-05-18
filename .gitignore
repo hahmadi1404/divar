@@ -1,46 +1,39 @@
-```gitignore
-# Build artifacts
-*.exe
-*.dll
-*.pdb
-*.user
-*.suo
-*.cache
-*.manifest
-bin/
-obj/
-Debug/
-Release/
+```
+# Compiled Python files
+*.pyc
+__pycache__/
 
-# Dependencies
-packages/
-node_modules/
-.nuget/
-.npm/
-
-# Logs and temp files
-*.log
-*.tmp
-*.temp
-
-# Environment
+# Virtual environments
+venv/
+.venv/
 .env
 .env.local
 *.env.*
 
-# Editors
-.vs/
+# Logs
+*.log
+
+# Editor/IDE files
 .vscode/
 .idea/
 *.swp
 *.swo
+*.tmp
 
-# OS generated files
+# Build/dist directories
+dist/
+build/
+target/
+
+# Dependencies
+node_modules/
+.mypy_cache/
+.pytest_cache/
+.coverage
+coverage/
+htmlcov/
+
+# System files
 .DS_Store
 Thumbs.db
-desktop.ini
-
-# Testing
-TestResults/
-coverage/
 ```
