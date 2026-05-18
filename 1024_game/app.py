@@ -11,7 +11,7 @@ HTML_TEMPLATE = '''
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بازی 1024</title>
+    <title>بازی 2048</title>
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         * {
@@ -273,7 +273,7 @@ HTML_TEMPLATE = '''
     </style>
 </head>
 <body>
-    <h1>🎮 1024</h1>
+    <h1>🎮 2048</h1>
     
     <div class="header-container">
         <div class="score-container" id="scoreContainer">امتیاز: <span id="score">0</span></div>
@@ -346,21 +346,42 @@ HTML_TEMPLATE = '''
         }
         
         document.addEventListener('keydown', function(event) {
+            // Map arrow keys to directions - handle RTL properly
             const keyMap = {
                 'ArrowUp': 'up',
                 'ArrowDown': 'down',
-                'ArrowLeft': 'left',
-                'ArrowRight': 'right'
+                'ArrowLeft': 'right',  // In RTL, left arrow visually goes right
+                'ArrowRight': 'left'   // In RTL, right arrow visually goes left
             };
             
+            // Also support WASD keys
+            const wasdMap = {
+                'w': 'up',
+                'W': 'up',
+                's': 'down',
+                'S': 'down',
+                'a': 'left',
+                'A': 'left',
+                'd': 'right',
+                'D': 'right'
+            };
+            
+            let direction = null;
+            
             if (keyMap[event.key]) {
+                direction = keyMap[event.key];
+            } else if (wasdMap[event.key]) {
+                direction = wasdMap[event.key];
+            }
+            
+            if (direction) {
                 event.preventDefault();
                 fetch('/move', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ direction: keyMap[event.key] })
+                    body: JSON.stringify({ direction: direction })
                 })
                 .then(response => response.json())
                 .then(data => {
