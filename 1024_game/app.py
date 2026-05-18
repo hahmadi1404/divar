@@ -12,10 +12,15 @@ HTML_TEMPLATE = '''
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>بازی 1024</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
+        * {
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: 'Tahoma', sans-serif;
-            background-color: #faf8ef;
+            font-family: 'Vazirmatn', 'Tahoma', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -23,114 +28,281 @@ HTML_TEMPLATE = '''
             min-height: 100vh;
             margin: 0;
             user-select: none;
+            padding: 20px;
         }
+        
         h1 {
-            color: #776e65;
-            font-size: 48px;
+            color: #fff;
+            font-size: 64px;
             margin: 10px 0;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            font-weight: 900;
+            letter-spacing: 2px;
         }
-        .score-container {
-            background: #bbada0;
-            padding: 10px 20px;
-            border-radius: 5px;
-            color: white;
-            font-size: 20px;
+        
+        .header-container {
+            display: flex;
+            gap: 20px;
+            align-items: center;
             margin-bottom: 20px;
         }
-        .grid-container {
-            background: #bbada0;
-            padding: 15px;
-            border-radius: 10px;
-            display: grid;
-            grid-template-columns: repeat(4, 100px);
-            grid-template-rows: repeat(4, 100px);
-            gap: 10px;
-            position: relative;
+        
+        .score-container {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+            padding: 15px 30px;
+            border-radius: 15px;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
         }
+        
+        .score-container.score-increased {
+            transform: scale(1.1);
+        }
+        
+        .best-score {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            padding: 15px 30px;
+            border-radius: 15px;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        
+        .grid-container {
+            background: linear-gradient(135deg, #3d3d3d, #1a1a1a);
+            padding: 20px;
+            border-radius: 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 110px);
+            grid-template-rows: repeat(4, 110px);
+            gap: 15px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4), inset 0 2px 10px rgba(255,255,255,0.1);
+        }
+        
         .cell {
-            background: #cdc1b4;
-            border-radius: 5px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 36px;
+            font-size: 40px;
             font-weight: bold;
-            color: #776e65;
-            transition: all 0.15s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            animation: pop 0.2s ease-out;
         }
-        .cell-2 { background: #eee4da; }
-        .cell-4 { background: #ede0c8; }
-        .cell-8 { background: #f2b179; color: #f9f6f2; }
-        .cell-16 { background: #f59563; color: #f9f6f2; }
-        .cell-32 { background: #f67c5f; color: #f9f6f2; }
-        .cell-64 { background: #f65e3b; color: #f9f6f2; }
-        .cell-128 { background: #edcf72; color: #f9f6f2; font-size: 32px; }
-        .cell-256 { background: #edcc61; color: #f9f6f2; font-size: 32px; }
-        .cell-512 { background: #edc850; color: #f9f6f2; font-size: 32px; }
-        .cell-1024 { background: #edc53f; color: #f9f6f2; font-size: 28px; }
-        .cell-2048 { background: #edc22e; color: #f9f6f2; font-size: 28px; }
+        
+        @keyframes pop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes merge {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+        
+        .cell.merged {
+            animation: merge 0.3s ease-out;
+        }
+        
+        .cell-empty {
+            background: rgba(255,255,255,0.1);
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .cell-2 { 
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            color: #3d3d3d;
+        }
+        
+        .cell-4 { 
+            background: linear-gradient(135deg, #fdcbf1, #e6dee9);
+            color: #3d3d3d;
+        }
+        
+        .cell-8 { 
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: #fff;
+        }
+        
+        .cell-16 { 
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: #fff;
+        }
+        
+        .cell-32 { 
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            color: #fff;
+        }
+        
+        .cell-64 { 
+            background: linear-gradient(135deg, #fa709a, #fee140);
+            color: #fff;
+        }
+        
+        .cell-128 { 
+            background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+            color: #fff;
+            font-size: 36px;
+            box-shadow: 0 0 30px rgba(161,140,209,0.6);
+        }
+        
+        .cell-256 { 
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            color: #fff;
+            font-size: 36px;
+            box-shadow: 0 0 30px rgba(255,154,158,0.6);
+        }
+        
+        .cell-512 { 
+            background: linear-gradient(135deg, #ffecd2, #fcb69f);
+            color: #fff;
+            font-size: 36px;
+            box-shadow: 0 0 30px rgba(252,182,159,0.6);
+        }
+        
+        .cell-1024 { 
+            background: linear-gradient(135deg, #f6d365, #fda085);
+            color: #fff;
+            font-size: 32px;
+            box-shadow: 0 0 40px rgba(246,211,101,0.8);
+        }
+        
+        .cell-2048 { 
+            background: linear-gradient(135deg, #ff0844, #ffb199);
+            color: #fff;
+            font-size: 32px;
+            box-shadow: 0 0 50px rgba(255,8,68,0.8);
+        }
+        
+        .cell-super { 
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            font-size: 28px;
+            box-shadow: 0 0 60px rgba(102,126,234,0.9);
+        }
+        
         .game-over {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(238, 228, 218, 0.73);
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            border-radius: 10px;
+            border-radius: 20px;
             display: none;
+            z-index: 10;
         }
+        
         .game-over.show {
             display: flex;
+            animation: fadeIn 0.5s ease-out;
         }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
         .game-over p {
-            font-size: 48px;
-            color: #776e65;
-            font-weight: bold;
-            margin: 0 0 20px 0;
+            font-size: 56px;
+            color: #fff;
+            font-weight: 900;
+            margin: 0 0 30px 0;
+            text-shadow: 0 0 30px rgba(255,255,255,0.5);
         }
+        
         button {
-            background: #8f7a66;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 15px 30px;
-            font-size: 18px;
-            border-radius: 5px;
+            padding: 18px 40px;
+            font-size: 22px;
+            border-radius: 15px;
             cursor: pointer;
-            font-family: 'Tahoma', sans-serif;
+            font-family: 'Vazirmatn', sans-serif;
+            font-weight: 700;
+            box-shadow: 0 8px 20px rgba(102,126,234,0.4);
+            transition: all 0.3s;
         }
+        
         button:hover {
-            background: #776e65;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(102,126,234,0.6);
         }
+        
+        button:active {
+            transform: translateY(-1px);
+        }
+        
         .instructions {
-            margin-top: 20px;
-            color: #776e65;
+            margin-top: 30px;
+            color: rgba(255,255,255,0.9);
             text-align: center;
+            font-size: 18px;
+            background: rgba(255,255,255,0.1);
+            padding: 20px 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .controls-hint {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .key {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <h1>بازی 1024</h1>
-    <div class="score-container">امتیاز: <span id="score">0</span></div>
+    <h1>🎮 1024</h1>
+    
+    <div class="header-container">
+        <div class="score-container" id="scoreContainer">امتیاز: <span id="score">0</span></div>
+        <div class="best-score">بهترین: <span id="bestScore">0</span></div>
+    </div>
     
     <div class="grid-container" id="grid">
         <div class="game-over" id="gameOver">
-            <p>پایان بازی!</p>
-            <button onclick="newGame()">بازی جدید</button>
+            <p>پایان بازی! 😔</p>
+            <button onclick="newGame()">بازی جدید 🔄</button>
         </div>
     </div>
     
-    <button onclick="newGame()" style="margin-top: 20px;">بازی جدید</button>
+    <button onclick="newGame()" style="margin-top: 25px;">بازی جدید 🎲</button>
     
     <div class="instructions">
-        <p>از کلیدهای جهت‌نما (↑ ↓ ← →) برای حرکت استفاده کنید</p>
+        <p>از کلیدهای جهت‌نما برای حرکت استفاده کنید</p>
+        <div class="controls-hint">
+            <span class="key">↑</span>
+            <span class="key">↓</span>
+            <span class="key">←</span>
+            <span class="key">→</span>
+        </div>
     </div>
 
     <script>
         let grid = [];
+        let bestScore = localStorage.getItem('bestScore') || 0;
+        document.getElementById('bestScore').textContent = bestScore;
         
         function newGame() {
             fetch('/new_game', { method: 'POST' })
@@ -157,11 +329,16 @@ HTML_TEMPLATE = '''
             for (let i = 0; i < 4; i++) {
                 for (let j = 0; j < 4; j++) {
                     const cell = document.createElement('div');
-                    cell.className = 'cell';
                     const value = grid[i][j];
-                    if (value !== 0) {
+                    if (value === 0) {
+                        cell.className = 'cell cell-empty';
+                    } else {
+                        if (value <= 2048) {
+                            cell.className = 'cell cell-' + value;
+                        } else {
+                            cell.className = 'cell cell-super';
+                        }
                         cell.textContent = value;
-                        cell.classList.add('cell-' + value);
                     }
                     gridElement.insertBefore(cell, gameOverElement);
                 }
@@ -184,6 +361,72 @@ HTML_TEMPLATE = '''
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ direction: keyMap[event.key] })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.grid) {
+                        const oldScore = parseInt(document.getElementById('score').textContent);
+                        grid = data.grid;
+                        document.getElementById('score').textContent = data.score;
+                        
+                        // Update best score
+                        if (data.score > bestScore) {
+                            bestScore = data.score;
+                            localStorage.setItem('bestScore', bestScore);
+                            document.getElementById('bestScore').textContent = bestScore;
+                        }
+                        
+                        // Score increase animation
+                        if (data.score > oldScore) {
+                            const scoreContainer = document.getElementById('scoreContainer');
+                            scoreContainer.classList.add('score-increased');
+                            setTimeout(() => {
+                                scoreContainer.classList.remove('score-increased');
+                            }, 200);
+                        }
+                        
+                        renderGrid();
+                        if (data.game_over) {
+                            document.getElementById('gameOver').classList.add('show');
+                        }
+                    }
+                });
+            }
+        });
+        
+        // Touch support for mobile
+        let touchStartX = 0;
+        let touchStartY = 0;
+        
+        document.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        });
+        
+        document.addEventListener('touchend', function(e) {
+            const touchEndX = e.changedTouches[0].screenX;
+            const touchEndY = e.changedTouches[0].screenY;
+            
+            const dx = touchEndX - touchStartX;
+            const dy = touchEndY - touchStartY;
+            
+            let direction = null;
+            
+            if (Math.abs(dx) > Math.abs(dy)) {
+                if (dx > 0) direction = 'right';
+                else direction = 'left';
+            } else {
+                if (dy > 0) direction = 'down';
+                else direction = 'up';
+            }
+            
+            if (direction) {
+                fetch('/move', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ direction: direction })
                 })
                 .then(response => response.json())
                 .then(data => {
